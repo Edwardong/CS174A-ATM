@@ -119,7 +119,7 @@ public class TopupUI implements ActionListener {
                         account.setClosed(true);
                     }
 
-                    JOptionPane.showMessageDialog(topupFrame, "Top-up succeed! Balance : $" + currentBalance.toString());
+                    JOptionPane.showMessageDialog(topupFrame, "Top-up succeed! Balance : $" + currentBalance.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                     topupFrame.setVisible(false);
                 }
             }

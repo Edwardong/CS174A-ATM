@@ -131,7 +131,7 @@ public class TransferUI implements ActionListener {
                         account.setClosed(true);
                     }
 
-                    JOptionPane.showMessageDialog(transferFrame, "Transfer succeed! Balance : $" + currentBalance.toString());
+                    JOptionPane.showMessageDialog(transferFrame, "Transfer succeed! Balance : $" + currentBalance.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                     transferFrame.setVisible(false);
                 }
             }

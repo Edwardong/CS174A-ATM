@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 public class ReportUI extends JPanel implements ActionListener {
     private JPanel usernamePanel;
@@ -83,7 +84,7 @@ public class ReportUI extends JPanel implements ActionListener {
                             accountsPanel.add(new Label(String.valueOf(accounts[i].getId())));
                             accountsPanel.add(new Label(String.valueOf(accounts[i].getType())));
                             accountsPanel.add(new Label(accounts[i].getBank_branch_name()));
-                            accountsPanel.add(new Label(accounts[i].getBalance().toString()));
+                            accountsPanel.add(new Label(accounts[i].getBalance().setScale(2, BigDecimal.ROUND_HALF_UP).toString()));
                             accountsPanel.add(new Label(accounts[i].getClosed() ? "true" : "false"));
                             count++;
                         }

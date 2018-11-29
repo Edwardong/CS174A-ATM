@@ -106,10 +106,10 @@ public class PurchaseUI implements ActionListener {
                         account.setClosed(true);
                     }
 
-                    JOptionPane.showMessageDialog(purchaseFrame, "Withdrawal succeed! Balance : $" + currentBalance.toString());
+                    JOptionPane.showMessageDialog(purchaseFrame, "Withdrawal succeed! Balance : $" + currentBalance.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                     purchaseFrame.setVisible(false);
                 }else{
-                    JOptionPane.showMessageDialog(purchaseFrame, "Your balance is not enough! Balance : $" + account.getBalance().toString());
+                    JOptionPane.showMessageDialog(purchaseFrame, "Your balance is not enough! Balance : $" + account.getBalance().setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                 }
             } else {
                 JOptionPane.showMessageDialog(purchaseFrame, "The format of money is wrong!");

@@ -108,10 +108,10 @@ public class WithdrawalUI implements ActionListener {
                         account.setClosed(true);
                     }
 
-                    JOptionPane.showMessageDialog(withdrawalFrame, "Withdrawal succeed! Balance : $" + currentBalance.toString());
+                    JOptionPane.showMessageDialog(withdrawalFrame, "Withdrawal succeed! Balance : $" + currentBalance.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                     withdrawalFrame.setVisible(false);
                 }else{
-                    JOptionPane.showMessageDialog(withdrawalFrame, "Your balance is not enough! Balance : $" + account.getBalance().toString());
+                    JOptionPane.showMessageDialog(withdrawalFrame, "Your balance is not enough! Balance : $" + account.getBalance().setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                 }
             } else {
                 JOptionPane.showMessageDialog(withdrawalFrame, "The format of money is wrong!");

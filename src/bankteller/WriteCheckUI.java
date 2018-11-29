@@ -157,7 +157,7 @@ public class WriteCheckUI extends JPanel implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Check is successfully written! Check Number : " + transaction.getCheck_number());
                     this.setVisible(false);
                 }else{
-                    JOptionPane.showMessageDialog(this, "Your balance is not enough! Balance : $" + account.getBalance().toString());
+                    JOptionPane.showMessageDialog(this, "Your balance is not enough! Balance : $" + account.getBalance().setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "The format of money is wrong!");

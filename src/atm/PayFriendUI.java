@@ -125,7 +125,7 @@ public class PayFriendUI implements ActionListener {
                         account.setClosed(true);
                     }
 
-                    JOptionPane.showMessageDialog(payFriendFrame, "Pay-Friend succeed! Balance : $" + currentBalance.toString());
+                    JOptionPane.showMessageDialog(payFriendFrame, "Pay-Friend succeed! Balance : $" + currentBalance.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                     payFriendFrame.setVisible(false);
                 }
             }

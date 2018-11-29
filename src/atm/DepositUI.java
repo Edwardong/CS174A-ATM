@@ -98,7 +98,7 @@ public class DepositUI implements ActionListener {
                 TransactionDao transactionDao = new TransactionDao();
                 transactionDao.addTransaction(transaction);
 
-                JOptionPane.showMessageDialog(depositFrame, "Deposit succeed! Balance : $" + currentBalance.toString());
+                JOptionPane.showMessageDialog(depositFrame, "Deposit succeed! Balance : $" + currentBalance.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                 depositFrame.setVisible(false);
             }
             else{

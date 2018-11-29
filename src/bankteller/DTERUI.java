@@ -62,7 +62,7 @@ public class DTERUI extends JPanel{
                 accountPanel.add(new JLabel(customer.getTax_id()));
                 accountPanel.add(new JLabel(customer.getName()));
                 accountPanel.add(new JLabel(customer.getAddress()));
-                accountPanel.add(new JLabel(sumMap.get(customer.getTax_id()).toString()));
+                accountPanel.add(new JLabel(sumMap.get(customer.getTax_id()).setScale(2,BigDecimal.ROUND_HALF_UP).toString()));
                 line++;
             }
         }

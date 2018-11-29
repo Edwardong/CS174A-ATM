@@ -17,6 +17,8 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
+import static java.math.BigDecimal.ROUND_HALF_DOWN;
+
 public class AddInterestUI extends JPanel implements ActionListener {
     private JPanel interestShowPanel;
 
@@ -96,28 +98,31 @@ public class AddInterestUI extends JPanel implements ActionListener {
         int currentDay = lastDay;
 
         BigDecimal finalBalance = account.getBalance();
+        BigDecimal wholeBalance = new BigDecimal("0");
         BigDecimal interest = new BigDecimal("0");
         TransactionDao transactionDao = new TransactionDao();
         Transaction[] transactions = transactionDao.queryTransactionsDuringCurrentMonthWithAccountId(account.getId());
         if (transactions != null && transactions.length != 0) {
-            for (int i = 0; i < transactions.length; i++) {
+            for (int i = transactions.length - 1; i >= 0; i--) {
                 switch (transactions[i].getTransactionType()) {
                     case DEPOSIT:
                         Calendar temp = Calendar.getInstance();
                         temp.setTime(transactions[i].getTran_date());
                         int tranDay = temp.get(Calendar.DATE);
-                        int interval = currentDay - tranDay + 1;
+                        int interval = currentDay - tranDay;
                         currentDay = tranDay;
-                        interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte));
+                        wholeBalance = wholeBalance.add(finalBalance.multiply(new BigDecimal(interval)));
+                        // interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte).divide(new BigDecimal("100")));
                         finalBalance = finalBalance.subtract(transactions[i].getActual_money());
                         break;
                     case TRANSFER:
                         temp = Calendar.getInstance();
                         temp.setTime(transactions[i].getTran_date());
                         tranDay = temp.get(Calendar.DATE);
-                        interval = currentDay - tranDay + 1;
+                        interval = currentDay - tranDay;
                         currentDay = tranDay;
-                        interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte));
+                        wholeBalance = wholeBalance.add(finalBalance.multiply(new BigDecimal(interval)));
+                        //interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte).divide(new BigDecimal("100")));
                         if (account.getId() == transactions[i].getFrom_id()) {
                             finalBalance = finalBalance.add(transactions[i].getActual_money());
                         } else {
@@ -128,9 +133,10 @@ public class AddInterestUI extends JPanel implements ActionListener {
                         temp = Calendar.getInstance();
                         temp.setTime(transactions[i].getTran_date());
                         tranDay = temp.get(Calendar.DATE);
-                        interval = currentDay - tranDay + 1;
+                        interval = currentDay - tranDay;
                         currentDay = tranDay;
-                        interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte));
+                        wholeBalance = wholeBalance.add(finalBalance.multiply(new BigDecimal(interval)));
+                        //interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte).divide(new BigDecimal("100")));
                         if (account.getId() == transactions[i].getFrom_id()) {
                             finalBalance = finalBalance.add(transactions[i].getMoney());
                         } else {
@@ -141,32 +147,38 @@ public class AddInterestUI extends JPanel implements ActionListener {
                         temp = Calendar.getInstance();
                         temp.setTime(transactions[i].getTran_date());
                         tranDay = temp.get(Calendar.DATE);
-                        interval = currentDay - tranDay + 1;
+                        interval = currentDay - tranDay;
                         currentDay = tranDay;
-                        interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte));
+                        wholeBalance = wholeBalance.add(finalBalance.multiply(new BigDecimal(interval)));
+                        //interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte).divide(new BigDecimal("100")));
                         finalBalance = finalBalance.add(transactions[i].getActual_money());
                         break;
                 }
             }
-            interest = interest.divide(new BigDecimal(days));
-
-            AccountDao accountDao = new AccountDao();
-            accountDao.updateBalance(account.getId(), account.getBalance().add(interest));
-
-            Transaction transaction = new Transaction();
-            // transaction.setTran_date(new Date());
-            transaction.setTran_date(TimeDao.getCurrentTime());
-            transaction.setTransactionType(TransactionType.ACCRUE_INTEREST);
-            transaction.setCustomerId("");
-            transaction.setFrom_id(account.getId());
-            transaction.setTo_id(account.getId());
-            transaction.setMoney(interest);
-            transaction.setActual_money(interest);
-            transaction.setFee(new BigDecimal("0"));
-            transaction.setCheck_number(null);
-
-            // Access to database and add a new transaction
-            transactionDao.addTransaction(transaction);
         }
+        int interval = currentDay - firstDay;
+        wholeBalance = wholeBalance.add(finalBalance.multiply(new BigDecimal(interval))).add(account.getBalance());
+        interest = wholeBalance.divide(new BigDecimal(days),10 ,ROUND_HALF_DOWN).multiply(inte).divide(new BigDecimal("100"));
+        //interest = interest.add(finalBalance.multiply(new BigDecimal(interval)).multiply(inte).divide(new BigDecimal("100")));
+
+        //interest = interest.divide(new BigDecimal(days));
+
+        AccountDao accountDao = new AccountDao();
+        accountDao.updateBalance(account.getId(), account.getBalance().add(interest));
+
+        Transaction transaction = new Transaction();
+        // transaction.setTran_date(new Date());
+        transaction.setTran_date(TimeDao.getCurrentTime());
+        transaction.setTransactionType(TransactionType.ACCRUE_INTEREST);
+        transaction.setCustomerId(account.getPrimary_owner());
+        transaction.setFrom_id(account.getId());
+        transaction.setTo_id(account.getId());
+        transaction.setMoney(interest);
+        transaction.setActual_money(interest);
+        transaction.setFee(new BigDecimal("0"));
+        transaction.setCheck_number(null);
+
+        // Access to database and add a new transaction
+        transactionDao.addTransaction(transaction);
     }
 }

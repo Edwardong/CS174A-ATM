@@ -13,19 +13,19 @@ public class DBConnector {
     // The name of database
     private final static String dbname = "xe";
 
-//    // The username of database
-//    private final static String username = "system";
-//
-//    // The password to access database
-//    private final static String password = "system";
-//
-//    // The url to access database
-//    private final static String url = "jdbc:oracle:thin:@//127.0.0.1:1521/" + dbname;
+    // The username of database
+    //private final static String username = "system";
+
+    // The password to access database
+    //private final static String password = "system";
+
+    // The url to access database
+    //private final static String url = "jdbc:oracle:thin:@//127.0.0.1:1521/" + dbname;
 
     private final static String username = "zherendong";
-
+//
     private final static String password = "CS174Aproject";
-
+//
     private final static String url = "jdbc:oracle:thin:@cloud-34-133.eci.ucsb.edu:1521:" + dbname;
 
     // Database driver using jdbc

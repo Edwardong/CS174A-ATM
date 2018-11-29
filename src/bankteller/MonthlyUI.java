@@ -129,8 +129,8 @@ public class MonthlyUI extends JPanel implements ActionListener {
             for (int i = 0; i < primaryAccounts.length; i++) {
                 primary.add(new JLabel(String.valueOf(primaryAccounts[i].getId())));
                 primary.add(new JLabel(String.valueOf(primaryAccounts[i].getType())));
-                primary.add(new JLabel(calFirst(primaryAccounts[i]).toString()));
-                primary.add(new JLabel(primaryAccounts[i].getBalance().toString()));
+                primary.add(new JLabel(calFirst(primaryAccounts[i]).setScale(2,BigDecimal.ROUND_HALF_UP).toString()));
+                primary.add(new JLabel(primaryAccounts[i].getBalance().setScale(2,BigDecimal.ROUND_HALF_UP).toString()));
                 if (primaryAccounts[i].getBalance().compareTo(new BigDecimal("100000")) > 0) {
                     primary.add(new JLabel("True"));
                 } else {
@@ -151,7 +151,7 @@ public class MonthlyUI extends JPanel implements ActionListener {
         TransactionDao transactionDao = new TransactionDao();
         Transaction[] transactions = transactionDao.queryTransactionsByAccountId(account.getId());
         if (transactions != null && transactions.length != 0) {
-            for (int i = 0; i < transactions.length; i++) {
+            for (int i = transactions.length - 1; i >= 0 ; i--) {
                 switch (transactions[i].getTransactionType()) {
                     case DEPOSIT:
                         firstBalance = firstBalance.subtract(transactions[i].getActual_money());
@@ -172,6 +172,9 @@ public class MonthlyUI extends JPanel implements ActionListener {
                         break;
                     case WITHDRAWAL:
                         firstBalance = firstBalance.add(transactions[i].getActual_money());
+                        break;
+                    case ACCRUE_INTEREST:
+                        firstBalance = firstBalance.subtract(transactions[i].getActual_money());
                         break;
                 }
             }
@@ -239,9 +242,9 @@ public class MonthlyUI extends JPanel implements ActionListener {
                     trans.add(new JLabel(transactions[i].getCustomerId()));
                     trans.add(new JLabel(String.valueOf(transactions[i].getFrom_id())));
                     trans.add(new JLabel(String.valueOf(transactions[i].getTo_id())));
-                    trans.add(new JLabel(transactions[i].getMoney().toString()));
-                    trans.add(new JLabel(transactions[i].getActual_money().toString()));
-                    trans.add(new JLabel(transactions[i].getFee().toString()));
+                    trans.add(new JLabel(transactions[i].getMoney().setScale(2,BigDecimal.ROUND_HALF_UP).toString()));
+                    trans.add(new JLabel(transactions[i].getActual_money().setScale(2,BigDecimal.ROUND_HALF_UP).toString()));
+                    trans.add(new JLabel(transactions[i].getFee().setScale(2,BigDecimal.ROUND_HALF_UP).toString()));
                     trans.add(new JLabel(transactions[i].getCheck_number()));
                     line++;
                 }

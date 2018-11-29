@@ -128,7 +128,7 @@ public class WireUI implements ActionListener {
                         account.setClosed(true);
                     }
 
-                    JOptionPane.showMessageDialog(wireFrame, "Wire succeed! Balance : $" + currentBalance.toString());
+                    JOptionPane.showMessageDialog(wireFrame, "Wire succeed! Balance : $" + currentBalance.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                     wireFrame.setVisible(false);
                 }
             }

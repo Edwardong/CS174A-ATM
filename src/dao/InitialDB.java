@@ -63,12 +63,12 @@ public class InitialDB {
                         "id INT PRIMARY KEY NOT NULL," +
                         "value INT)";
         String sql_create_interest =
-                "CREATE TABLE interest(" +
+                "CREATE TABLE interests(" +
                         "id INT PRIMARY KEY NOT NULL," +
                         "checking VARCHAR(20)," +
                         "savings VARCHAR(20))";
         String initial_time = "INSERT INTO add_time VALUES(1, 0)";
-        String inttial_interest = "INSERT INTO interest VALUES(1, '5.5', '7.5')";
+        String inttial_interest = "INSERT INTO interests VALUES(1, '5.5', '7.5')";
         DBExecutor dbExecutor = new DBExecutor();
         System.out.println(dbExecutor.runUpdate(sql_create_table_customers));
         System.out.println(dbExecutor.runUpdate(sql_create_table_accounts));
@@ -171,7 +171,7 @@ public class InitialDB {
         String sql_accounts = "drop table accounts";
         String sql_customers = "drop table customers";
         String sql_time = "drop table add_time";
-        String sql_interest = "drop table interest";
+        String sql_interest = "drop table interests";
         DBExecutor dbExecutor = new DBExecutor();
         dbExecutor.runUpdate(sql_pocket_association);
         dbExecutor.runUpdate(sql_id_creator);

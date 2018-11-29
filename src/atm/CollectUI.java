@@ -120,7 +120,7 @@ public class CollectUI implements ActionListener {
                         account.setClosed(true);
                     }
 
-                    JOptionPane.showMessageDialog(collectFrame, "Collect succeed! Current Pocket Account`s Balance : $" + currentBalance.toString());
+                    JOptionPane.showMessageDialog(collectFrame, "Collect succeed! Current Pocket Account`s Balance : $" + currentBalance.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
                     collectFrame.setVisible(false);
                 }
             }
